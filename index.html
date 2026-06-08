@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <title>My First Webpage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="ai-generated-landing-page/style.css">
     <style>
       img {
         width: 100px;
@@ -21,8 +23,143 @@
     </style>
   </head>
   <body>
-    <img src="images/Phd_picture_New.jpg" alt="Phd picture" />
-    <p class="username">@olofinlanre</p>
-    <p>Reach out if you'd like to collaborate!</p>
+    <header class="site-header">
+      <div class="header-inner container">
+        <a class="brand" href="#">My Site</a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <div class="sr-only nav-announcer" aria-live="polite"></div>
+        <nav id="primary-nav" class="primary-nav">
+          <a href="#">Home</a>
+          <a href="#features">Features</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-section">
+        <div class="container hero-content">
+          <div class="hero-copy">
+            <span class="eyebrow">Welcome</span>
+            <h1>Hi, I'm Olofinlanre</h1>
+            <p class="hero-description">Reach out if you'd like to collaborate!</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#contact">Get started</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <img src="images/Phd_picture_New.jpg" alt="Phd picture" />
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="feature-section" aria-labelledby="features-heading">
+        <div class="container section-header">
+          <h2 id="features-heading">Features</h2>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Fast</h3>
+              <p>Lightweight and speedy.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Responsive</h3>
+              <p>Looks great on any device.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Accessible</h3>
+              <p>Built with semantic HTML.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="cta-section">
+        <div class="container cta-card">
+          <div>
+            <h2>Ready to start?</h2>
+            <p>Contact me to discuss your project.</p>
+          </div>
+          <a class="button button-primary" href="mailto:you@example.com">Contact</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>&copy; 2026 Olofinlanre</p>
+      </div>
+    </footer>
+    <script>
+      (function(){
+        var btn = document.querySelector('.nav-toggle');
+        var nav = document.getElementById('primary-nav');
+        if (!btn || !nav) return;
+        var announcer = document.querySelector('.nav-announcer');
+
+        function getFocusable(el) {
+          return Array.prototype.slice.call(el.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(function(i){ return !i.hasAttribute('disabled'); });
+        }
+
+        function openNav() {
+          nav.classList.add('open');
+          btn.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          if (announcer) announcer.textContent = 'Navigation opened';
+          var focusables = getFocusable(nav);
+          if (focusables.length) focusables[0].focus();
+          document.addEventListener('keydown', trapKeys);
+        }
+
+        function closeNav() {
+          nav.classList.remove('open');
+          btn.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          if (announcer) announcer.textContent = 'Navigation closed';
+          btn.focus();
+          document.removeEventListener('keydown', trapKeys);
+        }
+
+        function trapKeys(e) {
+          if (e.key === 'Escape' || e.key === 'Esc') {
+            closeNav();
+            return;
+          }
+          if (e.key === 'Tab' && nav.classList.contains('open')) {
+            var focusables = getFocusable(nav);
+            if (!focusables.length) return;
+            var first = focusables[0];
+            var last = focusables[focusables.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
+
+        btn.addEventListener('click', function(){
+          var open = nav.classList.toggle('open');
+          btn.classList.toggle('open', open);
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (announcer) announcer.textContent = open ? 'Navigation opened' : 'Navigation closed';
+          if (open) {
+            // move focus into nav and attach key handler
+            var focusables = getFocusable(nav);
+            if (focusables.length) focusables[0].focus();
+            document.addEventListener('keydown', trapKeys);
+          } else {
+            document.removeEventListener('keydown', trapKeys);
+            btn.focus();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
